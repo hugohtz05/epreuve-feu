@@ -38,7 +38,13 @@ function getArguments() {
 }
 
 // Résolution
-let arguments = getArguments();
+function resolution(){
+    let arguments = getArguments();
+    square(arguments[0], arguments[1]);
+    return arguments;
+}
+
 
 // Affichage
-square(arguments[0], arguments[1]);
+resolution();
+
