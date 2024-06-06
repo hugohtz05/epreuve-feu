@@ -11,9 +11,7 @@ function findForm(board, tofind) {
             found = false;
           }
         }
-        if (!found) break;
       }
-
       if (found) {
         console.log(`Trouvé !\nCoordonnées : ${j},${i}`);
 
@@ -36,12 +34,10 @@ function findForm(board, tofind) {
           }
           console.log(row);
         }
-
         return;
       }
     }
   }
-
   console.log("Introuvable");
 }
 
