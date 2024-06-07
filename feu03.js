@@ -1,84 +1,72 @@
-const fs = require('fs');
+const fs = require("fs");
 
-function solveSudoku(board) {
-    const emptyCell = findEmptyCell(board);
-    if (!emptyCell) {
-        return true; 
+function valueIsValid(x, y, value, grid) {
+  for (let rowIndex = 0; rowIndex < grid.length; rowIndex++) {
+    if (grid[y][rowIndex] === value) {
+      return false;
     }
+  }
+  for (let colIndex = 0; colIndex < grid.length; colIndex++) {
+    if (grid[colIndex][x] === value) {
+      return false;
+    }
+  }
+  let subGridStartCol = ((x / 3) | 0) * 3;
+  let subGridStartRow = ((y / 3) | 0) * 3;
 
-    const { row, col } = emptyCell;
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 3; j++) {
+      if (grid[subGridStartRow + i][subGridStartCol + j] === value) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
 
-    for (let num = 1; num <= board.length; num++) {
-        if (isValidMove(board, row, col, num)) {
-            board[row][col] = num.toString();
-            if (solveSudoku(board)) {
-                return true;
+function solveSudoku(grid) {
+  for (let y = 0; y < 9; y++) {
+    for (let x = 0; x < 9; x++) {
+      if (grid[y][x] === ".") {
+        for (let value = 1; value <= 9; value++) {
+          if (valueIsValid(x, y, value, grid)) {
+            grid[y][x] = value.toString();
+            if (solveSudoku(grid)) {
+              return true;
             }
-            board[row][col] = '.';
+            grid[y][x] = ".";
+          }
         }
+        return false;
+      }
     }
-    return false;
+  }
+  return true;
 }
 
-function findEmptyCell(board) {
-    for (let i = 0; i < board.length ; i++) {
-        for (let j = 0; j < board; j++) {
-            if (board[i][j] === '.') {
-                return { row: i, col: j };
-            }
-        }
+function printGrid(grid) {
+  for (let i = 0; i < 9; i++) {
+    let row = "";
+    for (let j = 0; j < 9; j++) {
+      row += grid[i][j] + " ";
     }
-    return null;
-}
-
-function isValidMove(board, row, col, num) {
-    return (
-        isRowValid(board, row, num) &&
-        isColValid(board, col, num) &&
-        isBoxValid(board, row - (row % 3), col - (col % 3), num)
-    );
-}
-
-function isRowValid(board, row, num) {
-    return !board[row].includes(num.toString());
-}
-
-function isColValid(board, col, num) {
-    for (let i = 0; i < board.length; i++) {
-        if (board[i][col] === num.toString()) {
-            return false;
-        }
-    }
-    return true;
-}
-
-function isBoxValid(board, startRow, startCol, num) {
-    for (let row = 0; row < 3; row++) {
-        for (let col = 0; col < 3; col++) {
-            if (board[row + startRow][col + startCol] === num.toString()) {
-                return false;
-            }
-        }
-    }
-    return true;
+    console.log(row);
+  }
 }
 
 function getArgument() {
-    const sudokuGrid = fs.readFileSync('s.txt', 'utf-8').trim().split('\n').map(row => row.split(''));
-    return { sudokuGrid };
-}
-
-function printSudoku(board) {
-    for (let row of board) {
-        console.log(row.join(' '));
-    }
+  const sudokuGrid = fs
+    .readFileSync("s.txt", "utf-8")
+    .trim()
+    .split("\n")
+    .map((row) => row.split(""));
+  return sudokuGrid;
 }
 
 function resolution() {
-    const myArgument = getArgument();
-    const sudokuGrid = myArgument.sudokuGrid;
-    solveSudoku(sudokuGrid)
-    printSudoku(sudokuGrid);
+  const myArgument = getArgument();
+  solveSudoku(myArgument);
+  printGrid(myArgument);
 }
 
 resolution();
