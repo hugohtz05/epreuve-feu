@@ -7,6 +7,8 @@ function valueIsValid(x, y, value, grid) {
     }
   }
   for (let colIndex = 0; colIndex < grid.length; colIndex++) {
+    // j'ai renommer les variable qui etait de base des letres en vrai mot en sah jsp si c'est beacoup plus propre ?
+
     if (grid[colIndex][x] === value) {
       return false;
     }
@@ -30,11 +32,10 @@ function solveSudoku(grid) {
       if (grid[y][x] === ".") {
         for (let value = 1; value <= 9; value++) {
           if (valueIsValid(x, y, value, grid)) {
-            grid[y][x] = value.toString();
+            grid[y][x] = value;
             if (solveSudoku(grid)) {
               return true;
             }
-            grid[y][x] = ".";
           }
         }
         return false;
@@ -56,7 +57,7 @@ function printGrid(grid) {
 
 function getArgument() {
   const sudokuGrid = fs
-    .readFileSync("s.txt", "utf-8")
+    .readFileSync(process.argv[2], "utf-8")
     .trim()
     .split("\n")
     .map((row) => row.split(""));
