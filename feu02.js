@@ -43,7 +43,7 @@ function findForm(board, tofind) {
 
 function getArgument() {
   const board = fs
-    .readFileSync("board.txt", "utf-8")
+    .readFileSync(process.argv[2], "utf-8")
     .trim()
     .split("\n")
     .map((row) => row.split(""));
