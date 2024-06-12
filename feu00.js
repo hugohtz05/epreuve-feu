@@ -1,4 +1,3 @@
-// Fonction utilisée
 function square(largeur, hauteur) {
   if (largeur === 1) {
     console.log("o");
@@ -25,7 +24,6 @@ function square(largeur, hauteur) {
   }
 }
 
-// Parsing
 function getArguments() {
   let firstArgument = process.argv[2];
   let secondArgument = process.argv[3];
@@ -36,12 +34,10 @@ function getArguments() {
   return [firstArgument, secondArgument];
 }
 
-// Resolution
 function resolution() {
   let arguments = getArguments();
   square(arguments[0], arguments[1]);
   return arguments;
 }
 
-// Affiche
 resolution();
