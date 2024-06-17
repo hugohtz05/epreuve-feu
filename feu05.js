@@ -101,7 +101,23 @@ function displayLabyrinthe(grid, path) {
   }
 }
 
+function checkArguments() {
+  if (process.argv.length < 3) {
+    console.log("tu a mis trop d'arguments, mets en un seul ");
+    process.exit(1);
+  }
+}
+
+function isArgumentExist() {
+  if (!fs.existsSync(process.argv[2])) {
+    console.error("Fichier de plateau introuvable ");
+    process.exit(1);
+  }
+}
+
 function getArgument() {
+  isArgumentExist();
+  checkArguments();
   const grid = fs
     .readFileSync(process.argv[2], "utf-8")
     .trim()
