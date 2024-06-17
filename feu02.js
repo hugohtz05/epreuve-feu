@@ -41,7 +41,42 @@ function findForm(board, tofind) {
   console.log("Introuvable");
 }
 
+function checkArguments() {
+  if (process.argv.length < 4) {
+    console.log("tu a mis trop d'arguments, mets en deux ");
+    process.exit(1);
+  }
+}
+
+function validateBoardAndForm(board, toFind) {
+  if (board.length === 0 || board[0].length === 0) {
+    console.log("le plateau ne peut pas etre vide");
+    process.exit(1);
+  }
+  if (toFind.length === 0 || toFind[0].length === 0) {
+    console.log("la forme a rechercher ne peut pas être vide");
+    process.exit(1);
+  }
+  if (board.length < toFind.length || board[0].length < toFind[0].length) {
+    console.log("La forme a touver est plus grande que le plateau");
+    process.exit(1);
+  }
+}
+
+function isArgumentExist() {
+  if (!fs.existsSync(process.argv[2])) {
+    console.error("Fichier de plateau introuvable :");
+    process.exit(1);
+  }
+  if (!fs.existsSync(process.argv[3])) {
+    console.error("Fichier de forme introuvable :");
+    process.exit(1);
+  }
+}
+
 function getArgument() {
+  checkArguments();
+
   const board = fs
     .readFileSync(process.argv[2], "utf-8")
     .trim()
@@ -57,9 +92,8 @@ function getArgument() {
 
 function resolution() {
   const myArgument = getArgument();
-  const board = myArgument.board;
-  const toFind = myArgument.toFind;
-  findForm(board, toFind);
+  validateBoardAndForm(myArgument.board, myArgument.toFind);
+  findForm(myArgument.board, myArgument.toFind);
 }
 
 resolution();
