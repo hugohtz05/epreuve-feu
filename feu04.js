@@ -90,7 +90,15 @@ function validateGridCharacters(grid) {
   }
 }
 
+function isArgumentExist() {
+  if (!fs.existsSync(process.argv[2])) {
+    console.error("Fichier de plateau introuvable ");
+    process.exit(1);
+  }
+}
+
 function getArgument() {
+  isArgumentExist();
   validateGridCharacters();
   isValidGridFormat();
   checkArguments();
