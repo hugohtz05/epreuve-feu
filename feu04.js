@@ -62,7 +62,38 @@ function displayModifiedGrid(grid, largestSquare) {
   console.log(grid.map((row) => row.join("")).join("\n"));
 }
 
+function checkArguments() {
+  if (process.argv.length < 3) {
+    console.log("tu a mis trop d'arguments, mets en un seul ");
+    process.exit(1);
+  }
+}
+
+function isValidGridFormat(grid) {
+  if (grid.length !== grid[0].length) {
+    console.error("le format de la grille n'est pas valide");
+    process.exit(1);
+  }
+}
+
+function validateGridCharacters(grid) {
+  const allowedCharacters = ["x", ".", "o"];
+
+  const flatGrid = grid.flat();
+  for (let char of flatGrid) {
+    if (!allowedCharacters.includes(char)) {
+      console.error(
+        `Le caractere "${char}" n'est pas autoriser dans la grille.`
+      );
+      process.exit(1);
+    }
+  }
+}
+
 function getArgument() {
+  validateGridCharacters();
+  isValidGridFormat();
+  checkArguments();
   const grid = fs
     .readFileSync(process.argv[2], "utf-8")
     .trim()
