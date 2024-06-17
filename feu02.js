@@ -65,18 +65,18 @@ function validateBoardAndForm(board, toFind) {
 
 function isArgumentExist() {
   if (!fs.existsSync(process.argv[2])) {
-    console.error("Fichier de plateau introuvable :");
+    console.error("Fichier de plateau introuvable ");
     process.exit(1);
   }
   if (!fs.existsSync(process.argv[3])) {
-    console.error("Fichier de forme introuvable :");
+    console.error("Fichier de forme introuvable ");
     process.exit(1);
   }
 }
 
 function getArgument() {
   checkArguments();
-
+  isArgumentExist();
   const board = fs
     .readFileSync(process.argv[2], "utf-8")
     .trim()
